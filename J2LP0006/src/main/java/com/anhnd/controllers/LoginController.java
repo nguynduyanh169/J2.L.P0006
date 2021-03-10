@@ -56,7 +56,9 @@ public class LoginController {
             if(check == false){
                 JOptionPane.showMessageDialog(loginView, "Invalid username or password");
             }else{
-                new ProductManagementView().setVisible(true);
+                ProductManagementView productManagementView = new ProductManagementView();
+                ProductManagementController productManagementController = new ProductManagementController(productManagementView);
+                productManagementController.init();
                 loginView.dispose();
             }
         } catch (Exception e) {

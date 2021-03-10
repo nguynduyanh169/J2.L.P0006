@@ -5,6 +5,12 @@
  */
 package com.anhnd.views;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author anhnd
@@ -16,6 +22,142 @@ public class ProductManagementView extends javax.swing.JFrame {
      */
     public ProductManagementView() {
         initComponents();
+    }
+
+    public JButton getBtnDeleteCategory() {
+        return btnDeleteCategory;
+    }
+
+    public void setBtnDeleteCategory(JButton btnDeleteCategory) {
+        this.btnDeleteCategory = btnDeleteCategory;
+    }
+
+    public JButton getBtnDeleteProduct() {
+        return btnDeleteProduct;
+    }
+
+    public void setBtnDeleteProduct(JButton btnDeleteProduct) {
+        this.btnDeleteProduct = btnDeleteProduct;
+    }
+
+    public JButton getBtnNewCategory() {
+        return btnNewCategory;
+    }
+
+    public void setBtnNewCategory(JButton btnNewCategory) {
+        this.btnNewCategory = btnNewCategory;
+    }
+
+    public JButton getBtnNewProduct() {
+        return btnNewProduct;
+    }
+
+    public void setBtnNewProduct(JButton btnNewProduct) {
+        this.btnNewProduct = btnNewProduct;
+    }
+
+    public JButton getBtnSaveCategory() {
+        return btnSaveCategory;
+    }
+
+    public void setBtnSaveCategory(JButton btnSaveCategory) {
+        this.btnSaveCategory = btnSaveCategory;
+    }
+
+    public JButton getBtnSaveProduct() {
+        return btnSaveProduct;
+    }
+
+    public void setBtnSaveProduct(JButton btnSaveProduct) {
+        this.btnSaveProduct = btnSaveProduct;
+    }
+
+    public JComboBox<String> getCbCategoryName() {
+        return cbCategoryName;
+    }
+
+    public void setCbCategoryName(JComboBox<String> cbCategoryName) {
+        this.cbCategoryName = cbCategoryName;
+    }
+
+    public JTextArea getTxtCategoryDescription() {
+        return txtCategoryDescription;
+    }
+
+    public void setTxtCategoryDescription(JTextArea txtCategoryDescription) {
+        this.txtCategoryDescription = txtCategoryDescription;
+    }
+
+    public JTextField getTxtCategoryID() {
+        return txtCategoryID;
+    }
+
+    public void setTxtCategoryID(JTextField txtCategoryID) {
+        this.txtCategoryID = txtCategoryID;
+    }
+
+    public JTextField getTxtCategoryName() {
+        return txtCategoryName;
+    }
+
+    public void setTxtCategoryName(JTextField txtCategoryName) {
+        this.txtCategoryName = txtCategoryName;
+    }
+
+    public JTextField getTxtPrice() {
+        return txtPrice;
+    }
+
+    public void setTxtPrice(JTextField txtPrice) {
+        this.txtPrice = txtPrice;
+    }
+
+    public JTextField getTxtProductID() {
+        return txtProductID;
+    }
+
+    public void setTxtProductID(JTextField txtProductID) {
+        this.txtProductID = txtProductID;
+    }
+
+    public JTextField getTxtProductName() {
+        return txtProductName;
+    }
+
+    public void setTxtProductName(JTextField txtProductName) {
+        this.txtProductName = txtProductName;
+    }
+
+    public JTextField getTxtQuantity() {
+        return txtQuantity;
+    }
+
+    public void setTxtQuantity(JTextField txtQuantity) {
+        this.txtQuantity = txtQuantity;
+    }
+
+    public JTextField getTxtUnit() {
+        return txtUnit;
+    }
+
+    public void setTxtUnit(JTextField txtUnit) {
+        this.txtUnit = txtUnit;
+    }
+
+    public JTable getTblCategory() {
+        return tblCategory;
+    }
+
+    public void setTblCategory(JTable tblCategory) {
+        this.tblCategory = tblCategory;
+    }
+
+    public JTable getTblProduct() {
+        return tblProduct;
+    }
+
+    public void setTblProduct(JTable tblProduct) {
+        this.tblProduct = tblProduct;
     }
 
     /**
@@ -30,7 +172,7 @@ public class ProductManagementView extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCategory = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -44,7 +186,7 @@ public class ProductManagementView extends javax.swing.JFrame {
         txtCategoryDescription = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -64,7 +206,7 @@ public class ProductManagementView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -75,7 +217,7 @@ public class ProductManagementView extends javax.swing.JFrame {
                 "CategoryID", "CategoryName", "Description"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCategory);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detailed Part: "));
 
@@ -117,13 +259,10 @@ public class ProductManagementView extends javax.swing.JFrame {
                                 .addComponent(txtCategoryID, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnSaveCategory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSaveCategory)))
+                        .addComponent(btnDeleteCategory)))
                 .addGap(136, 136, 136))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(172, 172, 172)
-                .addComponent(btnDeleteCategory)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,10 +282,9 @@ public class ProductManagementView extends javax.swing.JFrame {
                 .addGap(83, 83, 83)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNewCategory)
-                    .addComponent(btnSaveCategory))
-                .addGap(66, 66, 66)
-                .addComponent(btnDeleteCategory)
-                .addContainerGap(97, Short.MAX_VALUE))
+                    .addComponent(btnSaveCategory)
+                    .addComponent(btnDeleteCategory))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -172,7 +310,7 @@ public class ProductManagementView extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Category", jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -183,7 +321,7 @@ public class ProductManagementView extends javax.swing.JFrame {
                 "ProductID", "ProductName", "Unit", "Quantity", "Price", "CategoryID"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tblProduct);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Detailed Part:"));
 
@@ -353,8 +491,8 @@ public class ProductManagementView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblCategory;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTextArea txtCategoryDescription;
     private javax.swing.JTextField txtCategoryID;
     private javax.swing.JTextField txtCategoryName;

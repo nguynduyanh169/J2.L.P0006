@@ -5,6 +5,8 @@
  */
 package com.anhnd.entity;
 
+import java.io.Serializable;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Products")
-public class Product {
+public class Product implements Serializable{
     
     @Id
     private String productID;
