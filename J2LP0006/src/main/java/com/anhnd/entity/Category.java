@@ -76,6 +76,11 @@ public class Category implements Serializable{
         v.add(this.description);
         return v;
     }
+
+    @Override
+    public String toString() {
+        return categoryName;
+    }
     
     
     
