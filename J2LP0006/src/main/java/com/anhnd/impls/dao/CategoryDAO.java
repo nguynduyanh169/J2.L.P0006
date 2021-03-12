@@ -6,6 +6,7 @@
 package com.anhnd.impls.dao;
 
 import com.anhnd.entity.Category;
+import com.anhnd.entity.Product;
 import com.anhnd.interfaces.dao.ICategoryDAO;
 import com.anhnd.utils.HibernateUtils;
 import java.util.List;
@@ -108,13 +109,15 @@ public class CategoryDAO implements ICategoryDAO {
         boolean check = false;
         try {
             session.getTransaction().begin();
-            String hql = "Delete Category c where c.categoryID = :categoryID";
-            Query query = session.createQuery(hql);
-            query.setParameter("categoryID", categoryID);
-            check = query.executeUpdate() > 0;
+            List<Product> products = (List<Product>) session.createQuery(" from Product p where p.category.categoryID = :categoryID").setParameter("categoryID", categoryID).getResultList();
+            if (products.size() == 0) {
+                String hql = "Delete Category c where c.categoryID = :categoryID";
+                Query query = session.createQuery(hql);
+                query.setParameter("categoryID", categoryID);
+                check = query.executeUpdate() > 0;
+            }
             session.flush();
             session.getTransaction().commit();
-           
         } catch (Exception e) {
             if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
@@ -123,7 +126,5 @@ public class CategoryDAO implements ICategoryDAO {
         }
         return check;
     }
-    
-    
 
 }

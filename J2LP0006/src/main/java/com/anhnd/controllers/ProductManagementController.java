@@ -80,6 +80,12 @@ public class ProductManagementController {
                 buttonDeleteCategory(evt);
             }
         });
+        productManagementView.getBtnDeleteProduct().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteProduct(evt);
+            }
+        });
         getAllCategory();
         getAllProduct();
         productManagementView.setVisible(true);
@@ -108,7 +114,7 @@ public class ProductManagementController {
             List<Product> products = productRMI.getAllProduct();
             productModel.setRowCount(0);
             for (Product product : products) {
-                System.out.println(Float.valueOf(product.getPrice()));
+                System.out.printf("%.2f\n", product.getPrice());
                 productModel.addRow(product.toVector());
             }
             productManagementView.getTblProduct().updateUI();
@@ -200,13 +206,13 @@ public class ProductManagementController {
                     productManagementView.getTxtQuantity().setText("");
                     productManagementView.getTxtPrice().setText("");
                     productManagementView.getCbCategoryName().setSelectedIndex(0);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
                 }
-            }else{
+            } else {
                 productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
                 boolean check = productRMI.editProduct(product);
-                if(check == true){
+                if (check == true) {
                     getAllProduct();
                     productManagementView.getTxtProductID().setText("");
                     productManagementView.getTxtProductID().setEditable(true);
@@ -215,7 +221,7 @@ public class ProductManagementController {
                     productManagementView.getTxtQuantity().setText("");
                     productManagementView.getTxtPrice().setText("");
                     productManagementView.getCbCategoryName().setSelectedIndex(0);
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(productManagementView, "Edit Failed!");
                 }
             }
@@ -291,7 +297,34 @@ public class ProductManagementController {
                     productManagementView.getTxtCategoryDescription().setText("");
                     getAllCategory();
                 } else {
-                    JOptionPane.showMessageDialog(productManagementView, "Delete failed!");
+                    JOptionPane.showMessageDialog(productManagementView, "Delete category: " + categoryID + " failed!");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            e.printStackTrace();
+        }
+    }
+
+    public void buttonDeleteProduct(java.awt.event.ActionEvent evt) {
+        try {
+            int pos = productManagementView.getTblProduct().getSelectedRow();
+            String productID = (String) productManagementView.getTblProduct().getValueAt(pos, 0);
+            int confirm = JOptionPane.showConfirmDialog(productManagementView, "Do you want to delete " + productID + " ?", "Confirm delete", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
+                boolean check = productRMI.deleteProduct(productID);
+                if (check == true) {
+                    productManagementView.getTxtProductID().setText("");
+                    productManagementView.getTxtProductID().setEditable(true);
+                    productManagementView.getTxtProductName().setText("");
+                    productManagementView.getTxtUnit().setText("");
+                    productManagementView.getTxtQuantity().setText("");
+                    productManagementView.getTxtPrice().setText("");
+                    productManagementView.getCbCategoryName().setSelectedIndex(0);
+                    getAllProduct();
+                }else{
+                     JOptionPane.showMessageDialog(productManagementView, "Delete product :" + productID + " failed!");
                 }
             }
         } catch (Exception e) {
