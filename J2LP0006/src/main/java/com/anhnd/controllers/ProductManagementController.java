@@ -102,8 +102,11 @@ public class ProductManagementController {
             }
             productManagementView.getTblCategory().updateUI();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+            if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
     }
 
@@ -118,8 +121,12 @@ public class ProductManagementController {
             }
             productManagementView.getTblProduct().updateUI();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+             if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
+            
         }
     }
 
@@ -168,15 +175,20 @@ public class ProductManagementController {
                 Category category = new Category(categoryID, categoryName, description);
                 if (isNewCategory == true) {
                     categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
-                    boolean check = categoryRMI.insertCategory(category);
-                    if (check == true) {
-                        productManagementView.getTxtCategoryID().setText("");
-                        productManagementView.getTxtCategoryID().setEditable(true);
-                        productManagementView.getTxtCategoryName().setText("");
-                        productManagementView.getTxtCategoryDescription().setText("");
-                        getAllCategory();
+                    Category existCategory = categoryRMI.findCategoryByID(categoryID);
+                    if (existCategory == null) {
+                        boolean check = categoryRMI.insertCategory(category);
+                        if (check == true) {
+                            productManagementView.getTxtCategoryID().setText("");
+                            productManagementView.getTxtCategoryID().setEditable(true);
+                            productManagementView.getTxtCategoryName().setText("");
+                            productManagementView.getTxtCategoryDescription().setText("");
+                            getAllCategory();
+                        } else {
+                            JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                        JOptionPane.showMessageDialog(productManagementView, "Category " + categoryID + " has been exist!");
                     }
                 } else {
                     categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
@@ -193,8 +205,11 @@ public class ProductManagementController {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+             if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
 
     }
@@ -237,18 +252,23 @@ public class ProductManagementController {
                 Product product = new Product(productID, productName, unit, price, quantity, category);
                 if (isNewProduct == true) {
                     productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
-                    boolean check = productRMI.insertProduct(product);
-                    if (check == true) {
-                        getAllProduct();
-                        productManagementView.getTxtProductID().setText("");
-                        productManagementView.getTxtProductID().setEditable(true);
-                        productManagementView.getTxtProductName().setText("");
-                        productManagementView.getTxtUnit().setText("");
-                        productManagementView.getTxtQuantity().setText("");
-                        productManagementView.getTxtPrice().setText("");
-                        productManagementView.getCbCategoryName().setSelectedIndex(0);
+                    Product existProduct = productRMI.findProductByID(productID);
+                    if (existProduct == null) {
+                        boolean check = productRMI.insertProduct(product);
+                        if (check == true) {
+                            getAllProduct();
+                            productManagementView.getTxtProductID().setText("");
+                            productManagementView.getTxtProductID().setEditable(true);
+                            productManagementView.getTxtProductName().setText("");
+                            productManagementView.getTxtUnit().setText("");
+                            productManagementView.getTxtQuantity().setText("");
+                            productManagementView.getTxtPrice().setText("");
+                            productManagementView.getCbCategoryName().setSelectedIndex(0);
+                        } else {
+                            JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                        JOptionPane.showMessageDialog(productManagementView, "Product " + productID + " has been exist!");
                     }
                 } else {
                     productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
@@ -290,8 +310,11 @@ public class ProductManagementController {
 
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+             if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
     }
 
@@ -320,8 +343,11 @@ public class ProductManagementController {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+            if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
     }
 
@@ -344,8 +370,11 @@ public class ProductManagementController {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+            if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
     }
 
@@ -371,8 +400,11 @@ public class ProductManagementController {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
-            e.printStackTrace();
+             if(e.getMessage().contains("Connection refused")){
+                JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
+            }else{
+                e.printStackTrace();
+            }
         }
     }
 

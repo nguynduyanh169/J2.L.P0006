@@ -10,6 +10,7 @@ import com.anhnd.entity.Product;
 import com.anhnd.interfaces.dao.ICategoryDAO;
 import com.anhnd.utils.HibernateUtils;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -72,11 +73,11 @@ public class CategoryDAO implements ICategoryDAO {
             category = session.get(Category.class, categoryID);
             session.flush();
             session.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (NoResultException ex) {
             if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-            e.printStackTrace();
+            return null;
         }
         return category;
     }

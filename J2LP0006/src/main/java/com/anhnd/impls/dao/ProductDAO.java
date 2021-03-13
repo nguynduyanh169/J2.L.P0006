@@ -9,6 +9,7 @@ import com.anhnd.entity.Product;
 import com.anhnd.interfaces.dao.IProductDAO;
 import com.anhnd.utils.HibernateUtils;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,11 +55,11 @@ public class ProductDAO implements IProductDAO{
             product = session.get(Product.class, productID);
             session.flush();
             session.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-            e.printStackTrace();
+            return null;
         }
         return product;
     }
