@@ -9,7 +9,6 @@ import com.anhnd.entity.Category;
 import com.anhnd.entity.Product;
 import com.anhnd.interfaces.rmi.ICategoryRMI;
 import com.anhnd.interfaces.rmi.IProductRMI;
-import com.anhnd.utils.ComboItem;
 import com.anhnd.utils.Constants;
 import com.anhnd.views.ProductManagementView;
 import java.rmi.Naming;
@@ -146,33 +145,51 @@ public class ProductManagementController {
 
     public void buttonSaveCategory(java.awt.event.ActionEvent evt) {
         try {
+            String error = "";
+            boolean isValid = true;
             String categoryID = productManagementView.getTxtCategoryID().getText().trim();
             String categoryName = productManagementView.getTxtCategoryName().getText().trim();
             String description = productManagementView.getTxtCategoryDescription().getText().trim();
-            Category category = new Category(categoryID, categoryName, description);
-            if (isNewCategory == true) {
-                categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
-                boolean check = categoryRMI.insertCategory(category);
-                if (check == true) {
-                    productManagementView.getTxtCategoryID().setText("");
-                    productManagementView.getTxtCategoryID().setEditable(true);
-                    productManagementView.getTxtCategoryName().setText("");
-                    productManagementView.getTxtCategoryDescription().setText("");
-                    getAllCategory();
-                } else {
-                    JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
-                }
+            if (!categoryID.matches(Constants.ID_REGEX) || categoryID.isEmpty() || categoryID.length() > 10) {
+                error += "\nCategoryID: maxlength is 10, not contains specific characters.";
+                isValid = false;
+            }
+            if (categoryName.isEmpty() || categoryName.length() > 50) {
+                error += "\nCategoryName: maxlength is 50.";
+                isValid = false;
+            }
+            if (description.isEmpty() || description.length() > 200) {
+                error += "\nDescription: maxlength is 200.";
+                isValid = false;
+            }
+            if (isValid == false) {
+                JOptionPane.showMessageDialog(productManagementView, error);
             } else {
-                categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
-                boolean check = categoryRMI.editCategory(category);
-                if (check == true) {
-                    productManagementView.getTxtCategoryID().setText("");
-                    productManagementView.getTxtCategoryID().setEditable(true);
-                    productManagementView.getTxtCategoryName().setText("");
-                    productManagementView.getTxtCategoryDescription().setText("");
-                    getAllCategory();
+                Category category = new Category(categoryID, categoryName, description);
+                if (isNewCategory == true) {
+                    categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
+                    boolean check = categoryRMI.insertCategory(category);
+                    if (check == true) {
+                        productManagementView.getTxtCategoryID().setText("");
+                        productManagementView.getTxtCategoryID().setEditable(true);
+                        productManagementView.getTxtCategoryName().setText("");
+                        productManagementView.getTxtCategoryDescription().setText("");
+                        getAllCategory();
+                    } else {
+                        JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(productManagementView, "Edit Failed!");
+                    categoryRMI = (ICategoryRMI) Naming.lookup(Constants.CATEGORY_URL);
+                    boolean check = categoryRMI.editCategory(category);
+                    if (check == true) {
+                        productManagementView.getTxtCategoryID().setText("");
+                        productManagementView.getTxtCategoryID().setEditable(true);
+                        productManagementView.getTxtCategoryName().setText("");
+                        productManagementView.getTxtCategoryDescription().setText("");
+                        getAllCategory();
+                    } else {
+                        JOptionPane.showMessageDialog(productManagementView, "Edit Failed!");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -184,47 +201,73 @@ public class ProductManagementController {
 
     public void buttonSaveProduct(java.awt.event.ActionEvent evt) {
         try {
+            String error = "";
+            boolean isValid = true;
             String productID = productManagementView.getTxtProductID().getText().trim();
             String productName = productManagementView.getTxtProductName().getText().trim();
             String unit = productManagementView.getTxtUnit().getText().trim();
             String priceText = productManagementView.getTxtPrice().getText().trim();
             String quantityText = productManagementView.getTxtQuantity().getText().trim();
-
-            int quantity = Integer.valueOf(quantityText);
-            float price = Float.valueOf(priceText);
             Category category = (Category) productManagementView.getCbCategoryName().getSelectedItem();
-            Product product = new Product(productID, productName, unit, price, quantity, category);
-            if (isNewProduct == true) {
-                productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
-                boolean check = productRMI.insertProduct(product);
-                if (check == true) {
-                    getAllProduct();
-                    productManagementView.getTxtProductID().setText("");
-                    productManagementView.getTxtProductID().setEditable(true);
-                    productManagementView.getTxtProductName().setText("");
-                    productManagementView.getTxtUnit().setText("");
-                    productManagementView.getTxtQuantity().setText("");
-                    productManagementView.getTxtPrice().setText("");
-                    productManagementView.getCbCategoryName().setSelectedIndex(0);
-                } else {
-                    JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
-                }
+            if (!productID.matches(Constants.ID_REGEX) || productID.length() > 10 || productID.isEmpty()) {
+                error += "\nProductID: maxlength is 10, not contains specific characters.";
+                isValid = false;
+            }
+            if (productName.isEmpty() || productName.length() > 50) {
+                error += "\nProductName: maxlength is 50.";
+                isValid = false;
+            }
+            if (unit.length() > 50 || unit.isEmpty()) {
+                error += "\nUnit: maxlength is 50.";
+                isValid = false;
+            }
+            if (!priceText.matches(Constants.PRICE_REGEX)) {
+                error += "\nPrice: must be a positive number.";
+                isValid = false;
+            }
+            if (!quantityText.matches(Constants.QUANTITY_REGEX)) {
+                error += "\nQuantity: must be a positive number.";
+                isValid = false;
+            }
+            if (isValid == false) {
+                JOptionPane.showMessageDialog(productManagementView, error);
             } else {
-                productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
-                boolean check = productRMI.editProduct(product);
-                if (check == true) {
-                    getAllProduct();
-                    productManagementView.getTxtProductID().setText("");
-                    productManagementView.getTxtProductID().setEditable(true);
-                    productManagementView.getTxtProductName().setText("");
-                    productManagementView.getTxtUnit().setText("");
-                    productManagementView.getTxtQuantity().setText("");
-                    productManagementView.getTxtPrice().setText("");
-                    productManagementView.getCbCategoryName().setSelectedIndex(0);
+                int quantity = Integer.valueOf(quantityText);
+                float price = Float.valueOf(priceText);
+                Product product = new Product(productID, productName, unit, price, quantity, category);
+                if (isNewProduct == true) {
+                    productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
+                    boolean check = productRMI.insertProduct(product);
+                    if (check == true) {
+                        getAllProduct();
+                        productManagementView.getTxtProductID().setText("");
+                        productManagementView.getTxtProductID().setEditable(true);
+                        productManagementView.getTxtProductName().setText("");
+                        productManagementView.getTxtUnit().setText("");
+                        productManagementView.getTxtQuantity().setText("");
+                        productManagementView.getTxtPrice().setText("");
+                        productManagementView.getCbCategoryName().setSelectedIndex(0);
+                    } else {
+                        JOptionPane.showMessageDialog(productManagementView, "Insert Failed!");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(productManagementView, "Edit Failed!");
+                    productRMI = (IProductRMI) Naming.lookup(Constants.PRODUCT_URL);
+                    boolean check = productRMI.editProduct(product);
+                    if (check == true) {
+                        getAllProduct();
+                        productManagementView.getTxtProductID().setText("");
+                        productManagementView.getTxtProductID().setEditable(true);
+                        productManagementView.getTxtProductName().setText("");
+                        productManagementView.getTxtUnit().setText("");
+                        productManagementView.getTxtQuantity().setText("");
+                        productManagementView.getTxtPrice().setText("");
+                        productManagementView.getCbCategoryName().setSelectedIndex(0);
+                    } else {
+                        JOptionPane.showMessageDialog(productManagementView, "Edit Failed!");
+                    }
                 }
             }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(productManagementView, "Failed to connect to server!");
             e.printStackTrace();
@@ -267,7 +310,7 @@ public class ProductManagementController {
                 productManagementView.getTxtProductName().setText(product.getProductName());
                 productManagementView.getTxtUnit().setText(product.getUnit());
                 productManagementView.getTxtQuantity().setText(String.valueOf(product.getQuantity()));
-                productManagementView.getTxtPrice().setText(String.valueOf(product.getPrice()));
+                productManagementView.getTxtPrice().setText(String.format("%.1f", product.getPrice()));
                 int cbSize = productManagementView.getCbCategoryName().getItemCount();
                 for (int i = 0; i < cbSize; i++) {
                     Category item = productManagementView.getCbCategoryName().getItemAt(i);
@@ -323,8 +366,8 @@ public class ProductManagementController {
                     productManagementView.getTxtPrice().setText("");
                     productManagementView.getCbCategoryName().setSelectedIndex(0);
                     getAllProduct();
-                }else{
-                     JOptionPane.showMessageDialog(productManagementView, "Delete product :" + productID + " failed!");
+                } else {
+                    JOptionPane.showMessageDialog(productManagementView, "Delete product :" + productID + " failed!");
                 }
             }
         } catch (Exception e) {

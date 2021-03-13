@@ -6,7 +6,6 @@
 package com.anhnd.views;
 
 import com.anhnd.entity.Category;
-import com.anhnd.utils.ComboItem;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;

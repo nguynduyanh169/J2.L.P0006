@@ -62,6 +62,7 @@ public class LoginController {
                 loginView.dispose();
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(loginView, "Failed to connect to server!");
             e.printStackTrace();
         }
     }

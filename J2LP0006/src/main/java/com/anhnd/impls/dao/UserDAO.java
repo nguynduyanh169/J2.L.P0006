@@ -9,6 +9,7 @@ import com.anhnd.entity.User;
 import com.anhnd.interfaces.dao.IUserDAO;
 import com.anhnd.utils.HibernateUtils;
 import java.util.ArrayList;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,11 +44,11 @@ public class UserDAO implements IUserDAO{
                     check = true;
                 }
             }
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             if(session.getTransaction().isActive()){
                 session.getTransaction().rollback();
             }
-            e.printStackTrace();
+            check = false;
         }
         return check;
     }

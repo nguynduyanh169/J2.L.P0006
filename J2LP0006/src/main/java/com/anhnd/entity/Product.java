@@ -103,7 +103,7 @@ public class Product implements Serializable{
     
     
     public Vector toVector(){
-        String priceText = String.format("%.2f", this.price);
+        String priceText = String.format("%.1f", this.price);
         Vector v = new Vector();
         v.add(this.productID);
         v.add(this.productName);
